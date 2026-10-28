@@ -1,0 +1,25 @@
+{
+  "id": "grafica",
+  "nome": "Grafica",
+  "azienda": "Studio Grafico Srl",
+  "attivita": [
+    {
+      "id": 1,
+      "titolo": "Nuovo logo",
+      "descrizione": "Proporre tre bozze per il logo del cliente",
+      "stato": "In corso",
+      "priorita": "Alta",
+      "assegnatario": "u4",
+      "scadenza": "2026-11-08"
+    },
+    {
+      "id": 2,
+      "titolo": "Biglietti da visita",
+      "descrizione": "Impaginare i biglietti da visita per tutto lo staff",
+      "stato": "Da fare",
+      "priorita": "Media",
+      "assegnatario": "u5",
+      "scadenza": "2026-11-18"
+    }
+  ]
+}

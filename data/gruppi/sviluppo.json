@@ -1,0 +1,34 @@
+{
+  "id": "sviluppo",
+  "nome": "Sviluppo",
+  "azienda": "Tech Solutions Srl",
+  "attivita": [
+    {
+      "id": 1,
+      "titolo": "Pagina di login",
+      "descrizione": "Creare il form di accesso con email e password",
+      "stato": "Completata",
+      "priorita": "Alta",
+      "assegnatario": "u1",
+      "scadenza": "2026-11-05"
+    },
+    {
+      "id": 2,
+      "titolo": "Salvataggio nel localStorage",
+      "descrizione": "Salvare le attività del gruppo dopo ogni modifica",
+      "stato": "In corso",
+      "priorita": "Alta",
+      "assegnatario": "u2",
+      "scadenza": "2026-11-12"
+    },
+    {
+      "id": 3,
+      "titolo": "Filtro per priorità",
+      "descrizione": "Mostrare solo le attività con la priorità scelta",
+      "stato": "Da fare",
+      "priorita": "Media",
+      "assegnatario": "u1",
+      "scadenza": "2026-11-20"
+    }
+  ]
+}
