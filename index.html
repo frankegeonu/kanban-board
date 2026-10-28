@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="css/sidebar.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-intestazione">
+      <p class="etichetta">Azienda</p>
+      <h1 id="nome-azienda"></h1>
+      <p id="nome-utente" class="nome-utente"></p>
+    </div>
+
+    <nav>
+      <p class="etichetta">Gruppi di lavoro</p>
+      <ul id="lista-gruppi"></ul>
+    </nav>
+
+    <div class="sidebar-piede">
+      <button id="pulsante-ripristina" class="pulsante-secondario">Ripristina dati</button>
+      <button id="pulsante-esci" class="pulsante-esci">Esci</button>
+    </div>
+  </aside>
+
+  <main class="contenuto">
+    <h2 id="titolo-gruppo"></h2>
+    <p id="messaggio-board" class="messaggio-board"></p>
+    <!-- La board del gruppo selezionato viene disegnata qui da app.js -->
+    <div id="board"></div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/archivio.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/sidebar.js"></script>
+</body>
+</html>

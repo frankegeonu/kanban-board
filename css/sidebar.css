@@ -1,0 +1,144 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #eef1f6;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: #2d3a8c;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  min-height: 100vh;
+}
+
+.etichetta {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #b8c0f0;
+  margin-bottom: 6px;
+}
+
+.sidebar-intestazione {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #4a57a8;
+}
+
+.sidebar-intestazione h1 {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.nome-utente {
+  font-size: 14px;
+  color: #dde1f7;
+}
+
+nav {
+  flex-grow: 1;
+}
+
+#lista-gruppi {
+  list-style: none;
+}
+
+#lista-gruppi button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  background-color: transparent;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#lista-gruppi button:hover {
+  background-color: #3d4b9e;
+}
+
+#lista-gruppi button.attivo {
+  background-color: #ffffff;
+  color: #2d3a8c;
+  font-weight: bold;
+}
+
+.sidebar-piede {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-piede button {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pulsante-secondario {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #b8c0f0;
+}
+
+.pulsante-esci {
+  background-color: #ffffff;
+  color: #2d3a8c;
+  border: none;
+  font-weight: bold;
+}
+
+/* ---------- Contenuto ---------- */
+
+.contenuto {
+  flex-grow: 1;
+  padding: 24px;
+  min-width: 0;
+}
+
+#titolo-gruppo {
+  color: #2d3a8c;
+  margin-bottom: 16px;
+}
+
+.messaggio-board {
+  color: #666666;
+}
+
+/* Su schermi piccoli la sidebar va sopra la board */
+@media (max-width: 700px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .sidebar-piede {
+    flex-direction: row;
+    margin-top: 12px;
+  }
+
+  .sidebar-piede button {
+    flex: 1;
+  }
+}
