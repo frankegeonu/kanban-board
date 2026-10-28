@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kanban board con gestione attività e drag and drop">
+  <title>Kanban Board</title>
+
+  <!-- Il collega collega qui il suo CSS. Tutti gli elementi hanno classi e attributi data-* come "ganci" -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="app">
+
+  <a class="skip-link" href="#board">Vai alla board</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="app-header" role="banner">
+
+    <div class="brand">
+      <span class="brand-logo" aria-hidden="true">▦</span>
+      <div class="brand-text">
+        <h1 class="brand-title">Kanban Board</h1>
+        <p class="brand-subtitle">Organizza il lavoro, trascina per avanzare</p>
+      </div>
+    </div>
+
+    <!-- Statistiche: aggiornate dal JS tramite data-stat -->
+    <ul class="stats" aria-label="Statistiche">
+      <li class="stat" data-stat-card="total">
+        <span class="stat-value" data-stat="total">0</span>
+        <span class="stat-label">Totali</span>
+      </li>
+      <li class="stat" data-stat-card="doing">
+        <span class="stat-value" data-stat="doing">0</span>
+        <span class="stat-label">In corso</span>
+      </li>
+      <li class="stat" data-stat-card="overdue">
+        <span class="stat-value" data-stat="overdue">0</span>
+        <span class="stat-label">In ritardo</span>
+      </li>
+      <li class="stat stat-progress" data-stat-card="progress">
+        <span class="stat-value"><span data-stat="progress">0</span>%</span>
+        <progress class="progress-bar" id="progress-bar" value="0" max="100" aria-label="Avanzamento"></progress>
+        <span class="stat-label">Completamento</span>
+      </li>
+    </ul>
+
+    <!-- Toolbar -->
+    <div class="toolbar" role="search">
+      <div class="field field-search">
+        <label class="field-label visually-hidden" for="search">Cerca</label>
+        <input class="input" type="search" id="search" placeholder="Cerca per titolo, descrizione o tag…" autocomplete="off">
+      </div>
+
+      <div class="field">
+        <label class="field-label visually-hidden" for="filter-priority">Priorità</label>
+        <select class="select" id="filter-priority">
+          <option value="all">Tutte le priorità</option>
+          <option value="high">Alta</option>
+          <option value="medium">Media</option>
+          <option value="low">Bassa</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field-label visually-hidden" for="sort-by">Ordina</label>
+        <select class="select" id="sort-by">
+          <option value="manual">Ordine manuale</option>
+          <option value="priority">Per priorità</option>
+          <option value="due">Per scadenza</option>
+          <option value="title">Per titolo</option>
+        </select>
+      </div>
+
+      <button class="btn btn-ghost" id="reset-filters" type="button">Azzera filtri</button>
+      <button class="btn btn-ghost" id="export-btn" type="button" title="Scarica le attività in JSON">⬇ Esporta</button>
+      <button class="btn btn-ghost" id="import-btn" type="button" title="Carica attività da JSON">⬆ Importa</button>
+      <input class="visually-hidden" type="file" id="import-file" accept="application/json" aria-label="File JSON da importare">
+      <button class="btn btn-ghost btn-icon" id="theme-toggle" type="button" title="Cambia tema" aria-label="Cambia tema">🌓</button>
+    </div>
+  </header>
+
+  <!-- ============ FORM NUOVA ATTIVITÀ ============ -->
+  <section class="composer" aria-labelledby="composer-title">
+    <details class="composer-details" open>
+      <summary class="composer-summary" id="composer-title">+ Nuova attività</summary>
+
+      <form class="task-form" id="task-form" autocomplete="off">
+        <div class="form-grid">
+
+          <div class="field field-wide">
+            <label class="field-label" for="task-title">Titolo *</label>
+            <input class="input" type="text" id="task-title" placeholder="Es. Preparare la presentazione" required maxlength="80">
+          </div>
+
+          <div class="field field-wide">
+            <label class="field-label" for="task-desc">Descrizione</label>
+            <textarea class="textarea" id="task-desc" rows="2" maxlength="200" placeholder="Dettagli (opzionale)"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="task-priority">Priorità</label>
+            <select class="select" id="task-priority">
+              <option value="low">Bassa</option>
+              <option value="medium" selected>Media</option>
+              <option value="high">Alta</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="task-due">Scadenza</label>
+            <input class="input" type="date" id="task-due">
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="task-column">Colonna</label>
+            <select class="select" id="task-column">
+              <option value="todo">Da fare</option>
+              <option value="doing">In corso</option>
+              <option value="done">Completate</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="task-tags">Tag</label>
+            <input class="input" type="text" id="task-tags" placeholder="design, urgente, bug">
+            <small class="field-hint">Separati da virgola</small>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-ghost" type="reset">Pulisci</button>
+          <button class="btn btn-primary" type="submit">Aggiungi attività</button>
+        </div>
+      </form>
+    </details>
+  </section>
+
+  <!-- ============ BOARD ============ -->
+  <main class="board" id="board" aria-label="Board delle attività">
+
+    <section class="column" data-column="todo" aria-labelledby="title-todo">
+      <header class="column-header">
+        <span class="column-dot" aria-hidden="true"></span>
+        <h2 class="column-title" id="title-todo">Da fare</h2>
+        <span class="column-count" data-count="todo" aria-label="Numero attività">0</span>
+      </header>
+      <div class="task-list" id="todo" role="list" data-dropzone="todo"></div>
+      <footer class="column-footer"><small class="column-hint">Trascina qui le attività da avviare</small></footer>
+    </section>
+
+    <section class="column" data-column="doing" aria-labelledby="title-doing">
+      <header class="column-header">
+        <span class="column-dot" aria-hidden="true"></span>
+        <h2 class="column-title" id="title-doing">In corso</h2>
+        <span class="column-count" data-count="doing" aria-label="Numero attività">0</span>
+      </header>
+      <div class="task-list" id="doing" role="list" data-dropzone="doing"></div>
+      <footer class="column-footer"><small class="column-hint">Su cosa stai lavorando ora</small></footer>
+    </section>
+
+    <section class="column" data-column="done" aria-labelledby="title-done">
+      <header class="column-header">
+        <span class="column-dot" aria-hidden="true"></span>
+        <h2 class="column-title" id="title-done">Completate</h2>
+        <span class="column-count" data-count="done" aria-label="Numero attività">0</span>
+        <button class="btn btn-ghost btn-small" id="clear-done" type="button">Svuota</button>
+      </header>
+      <div class="task-list" id="done" role="list" data-dropzone="done"></div>
+      <footer class="column-footer"><small class="column-hint">Lavoro concluso</small></footer>
+    </section>
+
+  </main>
+
+  <!-- ============ TEMPLATE CARD ============ -->
+  <template id="card-template">
+    <article class="card" role="listitem" draggable="true" data-id="" data-priority="" data-column="" data-due-state="">
+      <header class="card-header">
+        <span class="badge" data-field="priority"></span>
+        <div class="card-actions">
+          <button class="icon-btn" type="button" data-action="edit" title="Modifica" aria-label="Modifica attività">✎</button>
+          <button class="icon-btn icon-btn-danger" type="button" data-action="delete" title="Elimina" aria-label="Elimina attività">✕</button>
+        </div>
+      </header>
+
+      <h3 class="card-title" data-field="title"></h3>
+      <p class="card-desc" data-field="desc"></p>
+      <ul class="tag-list" data-field="tags"></ul>
+
+      <footer class="card-footer">
+        <span class="due" data-field="due"></span>
+        <div class="card-move">
+          <button class="icon-btn" type="button" data-action="move-left" title="Sposta a sinistra" aria-label="Sposta a sinistra">←</button>
+          <button class="icon-btn" type="button" data-action="move-right" title="Sposta a destra" aria-label="Sposta a destra">→</button>
+        </div>
+      </footer>
+    </article>
+  </template>
+
+  <!-- Template segnaposto colonna vuota -->
+  <template id="empty-template">
+    <div class="empty-state">
+      <span class="empty-icon" aria-hidden="true">∅</span>
+      <p class="empty-text"></p>
+    </div>
+  </template>
+
+  <!-- ============ DIALOG MODIFICA ============ -->
+  <dialog class="dialog" id="edit-dialog" aria-labelledby="edit-heading">
+    <form class="dialog-form" id="edit-form" method="dialog">
+      <header class="dialog-header">
+        <h2 class="dialog-title" id="edit-heading">Modifica attività</h2>
+      </header>
+
+      <div class="dialog-body">
+        <div class="field">
+          <label class="field-label" for="edit-title">Titolo *</label>
+          <input class="input" type="text" id="edit-title" required maxlength="80">
+        </div>
+        <div class="field">
+          <label class="field-label" for="edit-desc">Descrizione</label>
+          <textarea class="textarea" id="edit-desc" rows="3" maxlength="200"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label" for="edit-priority">Priorità</label>
+          <select class="select" id="edit-priority">
+            <option value="low">Bassa</option>
+            <option value="medium">Media</option>
+            <option value="high">Alta</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="edit-column">Colonna</label>
+          <select class="select" id="edit-column">
+            <option value="todo">Da fare</option>
+            <option value="doing">In corso</option>
+            <option value="done">Completate</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="edit-due">Scadenza</label>
+          <input class="input" type="date" id="edit-due">
+        </div>
+        <div class="field">
+          <label class="field-label" for="edit-tags">Tag</label>
+          <input class="input" type="text" id="edit-tags" placeholder="design, urgente">
+        </div>
+      </div>
+
+      <footer class="dialog-actions">
+        <button class="btn btn-ghost" type="button" id="edit-cancel">Annulla</button>
+        <button class="btn btn-primary" type="submit">Salva modifiche</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+
+  <footer class="app-footer">
+    <small>Doppio click su una card per modificarla · Trascina per spostarla o riordinarla</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
