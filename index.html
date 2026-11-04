@@ -4,123 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kanban Board</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/sidebar.css">
 </head>
-<body data-view="auth">
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-intestazione">
+      <p class="etichetta">Azienda</p>
+      <h1 id="nome-azienda"></h1>
+      <p id="nome-utente" class="nome-utente"></p>
+    </div>
 
- 
-  
-  <main class="auth" id="auth-view">
-    <form class="auth-card" id="auth-form" novalidate>
-      <h1>▦ Kanban Board</h1>
-      <p class="auth-subtitle" id="auth-subtitle">Accedi per vedere le tue attività</p>
+    <nav>
+      <p class="etichetta">Gruppi di lavoro</p>
+      <ul id="lista-gruppi"></ul>
+    </nav>
 
-      <label class="field" id="name-field" hidden>Nome
-        <input type="text" id="name" placeholder="Mario Rossi" autocomplete="name">
-      </label>
-      <label class="field">Email
-        <input type="email" id="email" placeholder="nome@esempio.it" autocomplete="username">
-      </label>
-      <label class="field">Password
-        <input type="password" id="password" placeholder="Almeno 6 caratteri" autocomplete="current-password">
-      </label>
+    <div class="sidebar-piede">
+      <button id="pulsante-ripristina" class="pulsante-secondario">Ripristina dati</button>
+      <button id="pulsante-esci" class="pulsante-esci">Esci</button>
+    </div>
+  </aside>
 
-      <p class="form-error" id="auth-error" role="alert" hidden></p>
-
-      <button class="btn primary" type="submit" id="auth-submit">Accedi</button>
-      <button class="link" type="button" id="auth-switch">Non hai un account? Registrati</button>
-      <button class="btn" type="button" id="guest-btn">Continua come ospite</button>
-    </form>
+  <main class="contenuto">
+    <h2 id="titolo-gruppo"></h2>
+    <p id="messaggio-board" class="messaggio-board"></p>
+    <!-- La board del gruppo selezionato viene disegnata qui da app.js -->
+    <div id="board"></div>
   </main>
 
-  
-  <div class="app" id="app-view" hidden>
-
-    <header class="topbar">
-      <h1>▦ Kanban Board</h1>
-      <input type="search" id="search" placeholder="Cerca attività…" aria-label="Cerca attività">
-      <button class="btn primary" id="add-btn" type="button">+ Nuova attività</button>
-      <div class="user">
-        <span id="user-name">Utente</span>
-        <button class="btn small" id="logout-btn" type="button">Esci</button>
-      </div>
-    </header>
-
-    <main class="board">
-      <section class="column" data-column="todo">
-        <h2>Da fare <span class="count" data-count="todo">0</span></h2>
-        <div class="task-list" id="todo"></div>
-      </section>
-
-      <section class="column" data-column="doing">
-        <h2>In corso <span class="count" data-count="doing">0</span></h2>
-        <div class="task-list" id="doing"></div>
-      </section>
-
-      <section class="column" data-column="done">
-        <h2>Completate <span class="count" data-count="done">0</span></h2>
-        <div class="task-list" id="done"></div>
-      </section>
-    </main>
-
-    <p class="hint">Trascina le card tra le colonne · Doppio click per modificarle</p>
-  </div>
-
-  
-  <dialog id="task-dialog">
-    <form id="task-form">
-      <h2 id="dialog-title">Nuova attività</h2>
-
-      <label class="field">Titolo
-        <input type="text" id="task-title" placeholder="Es. Preparare la presentazione" maxlength="80" required>
-      </label>
-      <label class="field">Descrizione
-        <textarea id="task-desc" rows="3" maxlength="200" placeholder="Opzionale"></textarea>
-      </label>
-
-      <div class="row">
-        <label class="field">Priorità
-          <select id="task-priority">
-            <option value="low">Bassa</option>
-            <option value="medium" selected>Media</option>
-            <option value="high">Alta</option>
-          </select>
-        </label>
-        <label class="field">Scadenza
-          <input type="date" id="task-due">
-        </label>
-      </div>
-
-      <label class="field">Colonna
-        <select id="task-column">
-          <option value="todo">Da fare</option>
-          <option value="doing">In corso</option>
-          <option value="done">Completate</option>
-        </select>
-      </label>
-
-      <div class="dialog-actions">
-        <button class="btn" type="button" id="cancel-btn">Annulla</button>
-        <button class="btn primary" type="submit" id="save-btn">Aggiungi</button>
-      </div>
-    </form>
-  </dialog>
-
-  <template id="card-template">
-    <article class="card" draggable="true">
-      <div class="card-top">
-        <span class="badge"></span>
-        <div class="card-actions">
-          <button class="icon-btn" type="button" data-action="edit" title="Modifica">✎</button>
-          <button class="icon-btn" type="button" data-action="delete" title="Elimina">✕</button>
-        </div>
-      </div>
-      <h3 class="card-title"></h3>
-      <p class="card-desc"></p>
-      <span class="due"></span>
-    </article>
-  </template>
-
-  <script src="script.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/archivio.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/sidebar.js"></script>
 </body>
 </html>

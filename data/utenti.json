@@ -1,0 +1,47 @@
+[
+  {
+    "id": "u1",
+    "nome": "Luca",
+    "cognome": "Rossi",
+    "email": "luca.rossi@techsolutions.it",
+    "password": "luca123",
+    "azienda": "Tech Solutions Srl",
+    "gruppi": ["sviluppo", "marketing"]
+  },
+  {
+    "id": "u2",
+    "nome": "Giulia",
+    "cognome": "Bianchi",
+    "email": "giulia.bianchi@techsolutions.it",
+    "password": "giulia123",
+    "azienda": "Tech Solutions Srl",
+    "gruppi": ["sviluppo"]
+  },
+  {
+    "id": "u3",
+    "nome": "Marco",
+    "cognome": "Verdi",
+    "email": "marco.verdi@techsolutions.it",
+    "password": "marco123",
+    "azienda": "Tech Solutions Srl",
+    "gruppi": ["marketing"]
+  },
+  {
+    "id": "u4",
+    "nome": "Sara",
+    "cognome": "Neri",
+    "email": "sara.neri@studiografico.it",
+    "password": "sara123",
+    "azienda": "Studio Grafico Srl",
+    "gruppi": ["grafica"]
+  },
+  {
+    "id": "u5",
+    "nome": "Paolo",
+    "cognome": "Gallo",
+    "email": "paolo.gallo@studiografico.it",
+    "password": "paolo123",
+    "azienda": "Studio Grafico Srl",
+    "gruppi": ["grafica"]
+  }
+]
