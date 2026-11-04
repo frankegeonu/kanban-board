@@ -28,11 +28,12 @@ login.html            pagina di accesso
 index.html            sidebar dei gruppi + board
 css/login.css         stile del login
 css/sidebar.css       stile della sidebar e della pagina
+css/board.css         stile della board, delle card e della finestra
 js/auth.js            accesso, uscita, utente collegato
 js/login.js           collega il form di login ad auth.js
 js/archivio.js        caricamento e salvataggio delle attività
 js/sidebar.js         sidebar: azienda, utente, gruppi
-js/app.js             board del gruppo selezionato
+js/app.js             board del gruppo: ricerca, creazione, modifica, trascinamento
 data/utenti.json      utenti (creati da noi, niente registrazione)
 data/gruppi/*.json    un file per gruppo con le attività iniziali
 ```

@@ -1,0 +1,362 @@
+/* Stile della board, della finestra delle attività e delle card.
+   Va incluso dopo sidebar.css. */
+
+:root {
+  --colonna: #e3e7f0;
+  --superficie: #ffffff;
+  --testo: #1b1c1f;
+  --attenuato: #6a6b70;
+  --bordo: #d4d9e6;
+  --accento: #2d3a8c;
+  --alta: #d6453d;
+  --media: #d98a1f;
+  --bassa: #2f8f5b;
+  --ombra: 0 1px 3px rgba(20, 30, 60, 0.12);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ---------- Campi e pulsanti ---------- */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--attenuato);
+}
+
+.campo input, .campo select, .campo textarea, #ricerca {
+  width: 100%;
+  padding: 10px 12px;
+  font-weight: 400;
+  color: var(--testo);
+  background-color: var(--superficie);
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--accento);
+  outline-offset: 1px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.btn {
+  padding: 9px 16px;
+  font-weight: 500;
+  background-color: var(--superficie);
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--colonna);
+}
+
+.btn.primario {
+  color: #ffffff;
+  background-color: var(--accento);
+  border-color: var(--accento);
+  font-weight: 600;
+}
+
+.btn.primario:hover {
+  background-color: #1f2a6b;
+}
+
+/* ---------- Board ---------- */
+
+.barra-board {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+#ricerca {
+  max-width: 280px;
+}
+
+.colonne {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.colonna {
+  padding: 14px;
+  background-color: var(--colonna);
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.colonna.sopra {
+  border-color: var(--accento);
+}
+
+.colonna h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.colonna h3::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #5b6fd6;
+}
+
+.colonna[data-stato="In corso"] h3::before {
+  background-color: var(--media);
+}
+
+.colonna[data-stato="Completata"] h3::before {
+  background-color: var(--bassa);
+}
+
+.conteggio {
+  margin-left: auto;
+  padding: 1px 9px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--attenuato);
+  background-color: var(--superficie);
+  border-radius: 4px;
+}
+
+.lista-attivita {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 80px;
+}
+
+.vuoto {
+  padding: 20px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--attenuato);
+  border: 2px dashed var(--bordo);
+  border-radius: 6px;
+}
+
+.suggerimento {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--attenuato);
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 12px 12px 16px;
+  background-color: var(--superficie);
+  border-radius: 6px;
+  box-shadow: var(--ombra);
+  cursor: grab;
+}
+
+/* Striscia colorata a sinistra in base alla priorità */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background-color: var(--media);
+}
+
+.card[data-priorita="Alta"]::before {
+  background-color: var(--alta);
+}
+
+.card[data-priorita="Bassa"]::before {
+  background-color: var(--bassa);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(20, 30, 60, 0.18);
+}
+
+.card.trascinata {
+  opacity: 0.4;
+}
+
+.card.inserisci-prima {
+  box-shadow: 0 -3px 0 0 var(--accento), var(--ombra);
+}
+
+.card[data-stato="Completata"] .card-titolo {
+  color: var(--attenuato);
+  text-decoration: line-through;
+}
+
+.card-alto, .card-basso {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-titolo {
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.card-descrizione {
+  font-size: 0.88rem;
+  color: var(--attenuato);
+  overflow-wrap: anywhere;
+}
+
+.etichetta-priorita {
+  padding: 2px 9px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: var(--media);
+  border-radius: 4px;
+}
+
+.card[data-priorita="Alta"] .etichetta-priorita {
+  background-color: var(--alta);
+}
+
+.card[data-priorita="Bassa"] .etichetta-priorita {
+  background-color: var(--bassa);
+}
+
+.assegnatario {
+  font-size: 0.8rem;
+  color: var(--accento);
+  font-weight: 600;
+}
+
+.scadenza {
+  padding: 2px 8px;
+  font-size: 0.78rem;
+  color: var(--attenuato);
+  background-color: var(--colonna);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.scadenza.scaduta {
+  color: #a12b24;
+  background-color: #fbe4e2;
+  font-weight: 600;
+}
+
+/* I pulsanti della card compaiono passando sopra con il mouse */
+.card-azioni {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.card:hover .card-azioni {
+  opacity: 1;
+}
+
+.pulsante-icona {
+  width: 26px;
+  height: 26px;
+  color: var(--attenuato);
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pulsante-icona:hover {
+  color: var(--testo);
+  background-color: var(--colonna);
+}
+
+/* ---------- Finestra delle attività ---------- */
+
+dialog {
+  width: min(440px, 92vw);
+  margin: auto;
+  padding: 26px;
+  color: var(--testo);
+  background-color: var(--superficie);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+dialog::backdrop {
+  background-color: rgba(20, 20, 30, 0.5);
+}
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+dialog h2 {
+  font-size: 1.25rem;
+}
+
+.riga {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.azioni-finestra {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Su schermi piccoli le colonne vanno una sotto l'altra */
+@media (max-width: 900px) {
+  .colonne {
+    grid-template-columns: 1fr;
+  }
+
+  .card-azioni {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .barra-board {
+    flex-direction: column;
+  }
+
+  #ricerca {
+    max-width: none;
+  }
+
+  .riga {
+    grid-template-columns: 1fr;
+  }
+}

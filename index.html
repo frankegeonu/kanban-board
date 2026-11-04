@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kanban Board</title>
   <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/board.css">
 </head>
 <body>
   <aside class="sidebar">
@@ -28,9 +29,97 @@
   <main class="contenuto">
     <h2 id="titolo-gruppo"></h2>
     <p id="messaggio-board" class="messaggio-board"></p>
-    <!-- La board del gruppo selezionato viene disegnata qui da app.js -->
-    <div id="board"></div>
+
+    <!-- La board del gruppo selezionato viene riempita da app.js -->
+    <div id="board" hidden>
+      <div class="barra-board">
+        <input type="search" id="ricerca" placeholder="Cerca attività…" aria-label="Cerca attività">
+        <button class="btn primario" id="pulsante-nuova" type="button">+ Nuova attività</button>
+      </div>
+
+      <div class="colonne">
+        <section class="colonna" data-stato="Da fare">
+          <h3>Da fare <span class="conteggio"></span></h3>
+          <div class="lista-attivita"></div>
+        </section>
+
+        <section class="colonna" data-stato="In corso">
+          <h3>In corso <span class="conteggio"></span></h3>
+          <div class="lista-attivita"></div>
+        </section>
+
+        <section class="colonna" data-stato="Completata">
+          <h3>Completate <span class="conteggio"></span></h3>
+          <div class="lista-attivita"></div>
+        </section>
+      </div>
+
+      <p class="suggerimento">Trascina le card tra le colonne · Doppio clic per modificarle</p>
+    </div>
   </main>
+
+  <dialog id="finestra-attivita">
+    <form id="form-attivita">
+      <h2 id="titolo-finestra">Nuova attività</h2>
+
+      <label class="campo">Titolo
+        <input type="text" id="campo-titolo" placeholder="Es. Preparare la presentazione" maxlength="80" required>
+      </label>
+      <label class="campo">Descrizione
+        <textarea id="campo-descrizione" rows="3" maxlength="200" placeholder="Opzionale"></textarea>
+      </label>
+
+      <div class="riga">
+        <label class="campo">Priorità
+          <select id="campo-priorita">
+            <option value="Bassa">Bassa</option>
+            <option value="Media" selected>Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+        </label>
+        <label class="campo">Scadenza
+          <input type="date" id="campo-scadenza">
+        </label>
+      </div>
+
+      <div class="riga">
+        <label class="campo">Stato
+          <select id="campo-stato">
+            <option value="Da fare">Da fare</option>
+            <option value="In corso">In corso</option>
+            <option value="Completata">Completata</option>
+          </select>
+        </label>
+        <label class="campo">Assegnata a
+          <!-- Le opzioni sono i membri del gruppo, aggiunte da app.js -->
+          <select id="campo-assegnatario"></select>
+        </label>
+      </div>
+
+      <div class="azioni-finestra">
+        <button class="btn" type="button" id="pulsante-annulla">Annulla</button>
+        <button class="btn primario" type="submit" id="pulsante-salva">Aggiungi</button>
+      </div>
+    </form>
+  </dialog>
+
+  <template id="modello-card">
+    <article class="card" draggable="true">
+      <div class="card-alto">
+        <span class="etichetta-priorita"></span>
+        <div class="card-azioni">
+          <button class="pulsante-icona" type="button" data-azione="modifica" title="Modifica">✎</button>
+          <button class="pulsante-icona" type="button" data-azione="elimina" title="Elimina">✕</button>
+        </div>
+      </div>
+      <h4 class="card-titolo"></h4>
+      <p class="card-descrizione"></p>
+      <div class="card-basso">
+        <span class="assegnatario"></span>
+        <span class="scadenza"></span>
+      </div>
+    </article>
+  </template>
 
   <script src="js/auth.js"></script>
   <script src="js/archivio.js"></script>
