@@ -1,8 +1,3 @@
-// Sidebar: mostra l'azienda e l'utente collegato, l'elenco dei suoi gruppi
-// di lavoro e apre la board del gruppo scelto.
-// Il gruppo aperto viene ricordato nel sessionStorage, così ricaricando la
-// pagina si resta sullo stesso gruppo.
-
 const CHIAVE_GRUPPO_ATTIVO = "kanban_gruppoAttivo";
 
 const nomeAzienda = document.getElementById("nome-azienda");
