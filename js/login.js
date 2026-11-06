@@ -1,5 +1,3 @@
-// Collega il form della pagina di login alle funzioni di auth.js
-
 const formLogin = document.getElementById("form-login");
 const campoEmail = document.getElementById("email");
 const campoPassword = document.getElementById("password");
