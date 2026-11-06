@@ -1,7 +1,3 @@
-// Gestione dell'accesso degli utenti.
-// L'utente collegato viene salvato nel sessionStorage: chiudendo la scheda
-// del browser l'accesso scade e bisogna rifare il login.
-
 const CHIAVE_UTENTE_COLLEGATO = "kanban_utenteCollegato";
 
 // Legge l'elenco degli utenti dal file JSON
